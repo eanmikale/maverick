@@ -148,17 +148,27 @@ class maverick_ros (
             target      => "${installdir}/${_distribution}",
             force       => true,
         } ->
+        # Remove compromised ROS repo key
+        exec { "ros-repo-badkey":
+            command     => "/usr/bin/apt-key del '421C 365B D9FF 1F71 7815  A389 5523 BAEE B01F A116'",
+            onlyif      => "/usr/bin/apt-key list -k |/bin/grep 'A389 5523 BAEE B01F A116'",
+            require     => Package["dirmngr"],
+        } ->
         # Install ROS bootstrap from ros.org packages
         exec { "ros-repo-key":
-            command     => "/usr/bin/apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116",
-            #unless      => "/usr/bin/apt-key list |/bin/egrep 'B01F\s?A116'",
-            creates     => "/etc/apt/sources.list.d/ros-latest.list",
+            command     => "/usr/bin/apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654",
+            unless      => "/usr/bin/apt-key list -k |/bin/grep 'C1CF 6E31 E6BA DE88 68B1  72B4 F42E D6FB AB17 C654'",
             require     => Package["dirmngr"],
+            notify      => Exec["ros_apt_update"],            
         } ->
         exec { "ros-repo":
             command     => "/bin/echo \"deb http://packages.ros.org/ros/ubuntu ${_distro} main\" > /etc/apt/sources.list.d/ros-latest.list",
             unless      => "/bin/grep '${_distro}' /etc/apt/sources.list.d/ros-latest.list",
-            notify      => Exec["apt_update"],
+            notify      => Exec["ros_apt_update"],
+        } ->
+        exec { "ros_apt_update":
+            command     => "/usr/bin/apt update",
+            refreshonly => true,
         } ->
         package { ["python-rosdep", "python-catkin-tools"]:
             ensure      => installed,
