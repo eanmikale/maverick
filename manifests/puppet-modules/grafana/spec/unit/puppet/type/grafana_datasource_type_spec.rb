@@ -30,7 +30,8 @@ describe Puppet::Type.type(:grafana_datasource) do
       database: 'test_db',
       user: 'db_user',
       password: 'db_password',
-      json_data: { esVersion: 5, timeField: '@timestamp', timeInterval: '1m' }
+      json_data: { esVersion: 5, timeField: '@timestamp', timeInterval: '1m' },
+      secure_json_data: { password: '5ecretPassw0rd' }
     )
   end
 
@@ -41,15 +42,15 @@ describe Puppet::Type.type(:grafana_datasource) do
       end.to raise_error(Puppet::Error, %r{not a valid URL})
     end
 
-    it "fails if url isn't HTTP-based" do
-      expect do
-        described_class.new name: 'foo', url: 'example.com', content: '{}', ensure: :present
-      end.to raise_error(Puppet::Error, %r{not a valid URL})
-    end
-
     it "fails if json_data isn't valid" do
       expect do
         described_class.new name: 'foo', grafana_url: 'http://example.com', json_data: 'invalid', ensure: :present
+      end.to raise_error(Puppet::Error, %r{json_data should be a Hash})
+    end
+
+    it "fails if secure_json_data isn't valid" do
+      expect do
+        described_class.new name: 'foo', grafana_url: 'http://example.com', secure_json_data: 'invalid', ensure: :present
       end.to raise_error(Puppet::Error, %r{json_data should be a Hash})
     end
     # rubocop:disable RSpec/MultipleExpectations
@@ -57,7 +58,7 @@ describe Puppet::Type.type(:grafana_datasource) do
       expect(gdatasource[:name]).to eq('foo')
       expect(gdatasource[:grafana_url]).to eq('http://example.com')
       expect(gdatasource[:url]).to eq('http://es.example.com')
-      expect(gdatasource[:type]).to eq(:elasticsearch)
+      expect(gdatasource[:type]).to eq('elasticsearch')
       expect(gdatasource[:organization]).to eq('test_org')
       expect(gdatasource[:access_mode]).to eq(:proxy)
       expect(gdatasource[:is_default]).to eq(:true)
@@ -69,6 +70,7 @@ describe Puppet::Type.type(:grafana_datasource) do
       expect(gdatasource[:user]).to eq('db_user')
       expect(gdatasource[:password]).to eq('db_password')
       expect(gdatasource[:json_data]).to eq(esVersion: 5, timeField: '@timestamp', timeInterval: '1m')
+      expect(gdatasource[:secure_json_data]).to eq(password: '5ecretPassw0rd')
     end
     # rubocop:enable RSpec/MultipleExpectations
 

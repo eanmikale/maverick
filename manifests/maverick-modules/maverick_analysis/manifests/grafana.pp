@@ -21,7 +21,7 @@ class maverick_analysis::grafana (
     
         ensure_packages(["sqlite3"])
     
-        file { ["/srv/maverick/data/analysis/grafana", "/srv/maverick/data/analysis/grafana/dashboards", "/srv/maverick/data/analysis/grafana/logs", "/srv/maverick/data/analysis/grafana/plugins", "/srv/maverick/data/analysis/grafana/provisioning", "/srv/maverick/data/analysis/grafana/provisioning/datasources", "/srv/maverick/data/analysis/grafana/provisioning/dashboards", "/srv/maverick/var/log/analysis/grafana"]:
+        file { ["/srv/maverick/data/analysis/grafana", "/srv/maverick/data/analysis/grafana/dashboards", "/srv/maverick/data/analysis/grafana/logs", "/srv/maverick/data/analysis/grafana/provisioning", "/srv/maverick/data/analysis/grafana/provisioning/datasources", "/srv/maverick/data/analysis/grafana/provisioning/dashboards", "/srv/maverick/var/log/analysis/grafana"]:
             ensure      => directory,
             mode        => "755",
             owner       => "mav",
