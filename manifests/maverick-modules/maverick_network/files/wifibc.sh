@@ -30,5 +30,5 @@ else
 fi
 
 # Call wifibc with configured arguments
-echo /srv/maverick/software/wifibc/bin/$1 -K $KEY -k $RSK -n $RSN -u $UDPPORT -p $RADIOPORT $_MAVLINKAGG $INTERFACE
-/srv/maverick/software/wifibc/bin/$1 -K $KEY -k $RSK -n $RSN -u $UDPPORT -p $RADIOPORT $_MAVLINKAGG $INTERFACE
+echo /srv/maverick/software/wifibc/bin/wfb_$1 -K $KEY -k $RSK -n $RSN -u $UDPPORT -p $RADIOPORT $_MAVLINKAGG $INTERFACE
+/srv/maverick/software/wifibc/bin/wfb_$1 -K $KEY -k $RSK -n $RSN -u $UDPPORT -p $RADIOPORT $_MAVLINKAGG $INTERFACE
