@@ -87,7 +87,7 @@ class maverick_network::wifibroadcast (
         } ->
         exec { "wifibc-genkeys":
             command     => "/srv/maverick/software/wifibc/bin/wfb_keygen",
-            creates     => "/srv/maverick/data/network/wifibc/rx.key",
+            creates     => "/srv/maverick/data/network/wifibc/gs.key",
             cwd         => "/srv/maverick/data/network/wifibc",
             user        => "mav",
         }
