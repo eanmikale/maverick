@@ -26,5 +26,5 @@ What does Maverick do?
  - PX4 development environment, compiled PX4 for SITL, everything necessary setup to compile and upload to Flight Controllers direct from companion computer
  - Vision functions - automatic detection and configuration of attached digital cameras for FPV (visiond), Precision Landing with vision_landing, experimental collision avoidance with RealSense depth cameras, Thermal Image streaming with Seek Thermal and Flir One devices, experimental SLAM components ORB_SLAM2 and RTABMAP
 
-<img src="https://goodrobots.github.io/maverick/media/maverick-snapshots.jpg" width="100%">
-<img src="https://goodrobots.github.io/maverick/media/maverick-architecture.svg" width="100%">
+<img src="" width="100%">
+<img src="" width="100%">
